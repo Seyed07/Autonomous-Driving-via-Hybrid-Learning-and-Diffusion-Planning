@@ -181,6 +181,13 @@ PPO optimizes avoidance by:
 
 ---
 
+## 📈 Diagrams
+
+- **Reference Diagram:**  
+  *Example academic diagram for IL+RL architecture.*  
+  ![Reference Architecture](https://pub.mdpi-res.com/electronics/electronics-14-01992/article_deploy/html/images/electronics-14-01992-g001.png?1747217076)
+
+---
 ## Advantages and Challenges
 
 ### Advantages
@@ -208,6 +215,34 @@ To advance the ILRLOA framework:
 - **Reward Engineering:** Introduce rewards for smoother maneuvers or energy efficiency.
 - **Curriculum Learning:** Gradually increase environmental complexity to enhance training efficiency.
 - **Sensor Fusion:** Leverage advanced architectures (e.g., attention mechanisms) for better integration of vision and LiDAR data.
+
+## 🏋️ Training the Model
+
+Train a new model:
+Executes the phased training process, saving performance plots and the final model.
+
+**Training Phases:**  
+
+| Phase      | Description                                   |
+|------------|-----------------------------------------------|
+| Imitation  | Mimics expert via BC for initial skills.      |
+| Mixed      | Blends expert and RL actions for transition.  |
+| RL         | Optimizes policy with PPO for robustness.     |
+
+---
+
+## 📊 Evaluation
+
+Evaluate performance:
+
+Runs episodes, logging metrics like rewards, collision rates, and lane-keeping accuracy.  
+Saves visualization plots for analysis.
+
+<img width="867" height="283" alt="bc" src="https://github.com/user-attachments/assets/81605936-a8d2-4a02-a8a2-598c6241f296" />
+<img width="853" height="291" alt="rewards" src="https://github.com/user-attachments/assets/3987142b-c4d6-4eb9-8926-deef4b95b19f" />
+
+---
+
 
 ---
 
@@ -254,11 +289,6 @@ pillow
 ### Running Inference
 
 Run the pre-trained model:
-
-```bash
-python main.py
-```
-
 - Loads the trained model and executes navigation in Webots, logging performance metrics.
 
 **Simulation Details**
@@ -268,52 +298,17 @@ python main.py
 
 ---
 
-## 🏋️ Training the Model
-
-Train a new model:
-Executes the phased training process, saving performance plots and the final model.
-
-**Training Phases:**  
-
-| Phase      | Description                                   |
-|------------|-----------------------------------------------|
-| Imitation  | Mimics expert via BC for initial skills.      |
-| Mixed      | Blends expert and RL actions for transition.  |
-| RL         | Optimizes policy with PPO for robustness.     |
-
----
-
-## 📊 Evaluation
-
-Evaluate performance:
-
-Runs episodes, logging metrics like rewards, collision rates, and lane-keeping accuracy.  
-Saves visualization plots for analysis.
-
----
-
 ## 📁 Repository Structure
 
 ```
-├── main.py                     # Inference script
-├── train.py                    # Training script
-├── evaluate.py                 # Evaluation script
 ├── autonomous_driving_env.py   # Environment and logic
 ├── worlds/                     # Webots world files
 ├── reward_plots/               # Training/evaluation plots
 ├── models/                     # Saved models
-├── images/                     # Diagrams and visualizations
-├── requirements.txt            # Dependencies
 └── README.md                   # This file
 ```
 
 ---
-
-## 📈 Diagrams
-
-- **Reference Diagram:**  
-  *Example academic diagram for IL+RL architecture.*  
-  ![Reference Architecture](https://pub.mdpi-res.com/electronics/electronics-14-01992/article_deploy/html/images/electronics-14-01992-g001.png?1747217076)
 
 ## 🤝 Contributing
 
