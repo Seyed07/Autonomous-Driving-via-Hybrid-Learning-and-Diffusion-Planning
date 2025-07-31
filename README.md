@@ -22,23 +22,6 @@ Thank you for your understanding.
 
 ---
 
-## 📖 Table of Contents
-
-- [Overview of the Learning Framework](#-overview-of-the-learning-framework)
-- [Imitation Learning (Behavioral Cloning)](#imitation-learning-behavioral-cloning)
-- [Reinforcement Learning (PPO)](#reinforcement-learning-ppo)
-- [Combining IL and RL](#combining-il-and-rl)
-- [Obstacle Avoidance with Computer Vision](#obstacle-avoidance-with-computer-vision)
-- [Advantages and Challenges](#advantages-and-challenges)
-- [Potential Improvements](#potential-improvements)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Evaluation](#-evaluation)
-- [Repository Structure](#-repository-structure)
-- [Diagrams](#-diagrams)
-- [Contributing](#-contributing)
----
-
 ## 🧠 Overview of the Learning Framework
 
 The ILRLOA project develops an autonomous driving system that combines **Imitation Learning (IL)** and **Reinforcement Learning (RL)** to navigate a simulated environment in Webots, achieving robust lane following and obstacle avoidance.  
