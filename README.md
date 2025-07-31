@@ -246,9 +246,6 @@ Executes the phased training process, saving performance plots and the final mod
 
 Evaluate performance:
 
-Runs episodes, logging metrics like rewards, collision rates, and lane-keeping accuracy.  
-Saves visualization plots for analysis.
-
 <img width="867" height="283" alt="bc" src="https://github.com/user-attachments/assets/81605936-a8d2-4a02-a8a2-598c6241f296" />
 <img width="853" height="291" alt="rewards" src="https://github.com/user-attachments/assets/3987142b-c4d6-4eb9-8926-deef4b95b19f" />
 
