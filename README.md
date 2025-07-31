@@ -133,12 +133,12 @@ PPO iteratively collects environment interactions, computes advantages, and upda
 PPO enhances avoidance by optimizing steering and speed adjustments, minimizing lane deviations, and adapting to complex or unseen obstacle configurations, resulting in smoother and safer maneuvers.
 
 ---
-<img width="1000" alt="download" src="https://github.com/user-attachments/assets/1be56b0f-dd35-4696-9a40-f3f592341042" />
-
 
 ## Combining IL and RL
 
 The integration of IL and RL leverages the strengths of both paradigms:
+
+<img width="1000" alt="download" src="https://github.com/user-attachments/assets/1be56b0f-dd35-4696-9a40-f3f592341042" />
 
 - **IL:** Provides a stable, expert-guided starting point, reducing initial exploration demands.
 - **RL:** Enhances adaptability, optimizing for complex scenarios and long-term performance.
