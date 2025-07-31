@@ -200,9 +200,20 @@ PPO optimizes avoidance by:
 ### Challenges
 
 - **Expert Limitations:** Vision-based detection may struggle in complex or ambiguous conditions (e.g., occluded lanes).
-- **IL Distribution Shift:** BC may overfit to expert actions, limiting generalization to new scenarios.
-- **RL Efficiency:** Convergence may be slow for rare or complex obstacle configurations.
-- **Vision Sensitivity:** Lane detection algorithms can be sensitive to environmental noise or variations.
+- **IL Distribution Shift:** Behavioral Cloning (BC) may overfit to expert actions, limiting generalization to novel scenarios.
+- **RL Efficiency:** Pure RL often converges slowly in rare or highly complex obstacle situations.
+- **Vision Sensitivity:** Lane detection algorithms can be sensitive to noise or environmental variations.
+
+<div align="center">
+  <img width="1142" height="371" src="https://github.com/user-attachments/assets/32fa7f65-aab6-410b-821b-11cc975605b2" alt="RL Reward Fluctuation" />
+  <br>
+  <img width="1150" height="384" src="https://github.com/user-attachments/assets/6ad264f1-29ce-41ea-b220-b454fe1ae3ca" alt="RL Action Instability" />
+</div>
+
+<p align="center" style="font-size:17px;">
+As demonstrated in the figures above, when <b>Reinforcement Learning (RL)</b> is deployed independently—without the support of <b>Imitation Learning (IL)</b>—the system experiences a notable decline in performance, along with pronounced fluctuations in both reward acquisition and control actions.<br>
+This demonstrates the necessity for further <b>tuning</b> and stabilization of the RL phase. A practical strategy to address these instabilities is to leverage the <b>experience replay buffer</b> gathered during the IL phase, enabling the RL agent to improve its performance during independent training and reduce both variance and instability.
+</p>
 
 ---
 
