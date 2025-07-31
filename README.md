@@ -52,13 +52,15 @@ The system employs a vision-based expert policy that processes camera images for
 
 ---
 
-<div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/48d16375-2706-4f30-aa0a-c8fdf3712700" width="600" />
-</div>
-
 ## Imitation Learning (Behavioral Cloning)
 
 **Imitation Learning (IL)** enables the agent to replicate the behavior of an expert policy by learning to map observations to expert actions. In ILRLOA, IL is implemented through **Behavioral Cloning (BC)**, where the agent is trained to mimic the expert’s steering and throttle commands.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/48d16375-2706-4f30-aa0a-c8fdf3712700" width="600" />
+</div>
+
+
 
 ### Expert Policy (Computer Vision-Based)
 
@@ -96,6 +98,9 @@ BC trains a neural network to replicate the expert’s actions:
   BC accelerates learning by initializing the agent with expert-like navigation skills, reducing the need for extensive exploration in subsequent RL phases.
 
 ---
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b3a41d4d-cb67-4272-9f3f-deafa52302da" width="80%"/>
+</p>
 
 ## Reinforcement Learning (PPO)
 
@@ -240,21 +245,6 @@ To advance the ILRLOA framework:
 - **Reward Engineering:** Introduce rewards for smoother maneuvers or energy efficiency.
 - **Curriculum Learning:** Gradually increase environmental complexity to enhance training efficiency.
 - **Sensor Fusion:** Leverage advanced architectures (e.g., attention mechanisms) for better integration of vision and LiDAR data.
-
-## 🏋️ Training the Model
-
-Train a new model:
-Executes the phased training process, saving performance plots and the final model.
-
-**Training Phases:**  
-
-| Phase      | Description                                   |
-|------------|-----------------------------------------------|
-| Imitation  | Mimics expert via BC for initial skills.      |
-| Mixed      | Blends expert and RL actions for transition.  |
-| RL         | Optimizes policy with PPO for robustness.     |
-
----
 
 ## 📊 Evaluation
 
