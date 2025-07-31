@@ -207,6 +207,27 @@ PPO optimizes avoidance by:
   ![Reference Architecture](https://pub.mdpi-res.com/electronics/electronics-14-01992/article_deploy/html/images/electronics-14-01992-g001.png?1747217076)
 
 ---
+
+
+## Potential Improvements
+
+To advance the ILRLOA framework:
+
+- **Enhanced Vision:** Incorporate deep learning-based lane detection (e.g., semantic segmentation) for improved robustness.
+- **Advanced IL:** Implement techniques like DAgger to iteratively refine the expert policy, reducing distribution shift.
+- **Reward Engineering:** Introduce rewards for smoother maneuvers or energy efficiency.
+- **Curriculum Learning:** Gradually increase environmental complexity to enhance training efficiency.
+- **Sensor Fusion:** Leverage advanced architectures (e.g., attention mechanisms) for better integration of vision and LiDAR data.
+
+## 📊 Evaluation
+
+Evaluate performance:
+
+<img width="867" height="283" alt="bc" src="https://github.com/user-attachments/assets/81605936-a8d2-4a02-a8a2-598c6241f296" />
+<img width="853" height="291" alt="rewards" src="https://github.com/user-attachments/assets/3987142b-c4d6-4eb9-8926-deef4b95b19f" />
+
+---
+
 ## Advantages and Challenges
 
 ### Advantages
@@ -235,26 +256,6 @@ This demonstrates the necessity for further <b>tuning</b> and stabilization of t
 </p>
 
 ---
-
-## Potential Improvements
-
-To advance the ILRLOA framework:
-
-- **Enhanced Vision:** Incorporate deep learning-based lane detection (e.g., semantic segmentation) for improved robustness.
-- **Advanced IL:** Implement techniques like DAgger to iteratively refine the expert policy, reducing distribution shift.
-- **Reward Engineering:** Introduce rewards for smoother maneuvers or energy efficiency.
-- **Curriculum Learning:** Gradually increase environmental complexity to enhance training efficiency.
-- **Sensor Fusion:** Leverage advanced architectures (e.g., attention mechanisms) for better integration of vision and LiDAR data.
-
-## 📊 Evaluation
-
-Evaluate performance:
-
-<img width="867" height="283" alt="bc" src="https://github.com/user-attachments/assets/81605936-a8d2-4a02-a8a2-598c6241f296" />
-<img width="853" height="291" alt="rewards" src="https://github.com/user-attachments/assets/3987142b-c4d6-4eb9-8926-deef4b95b19f" />
-
----
-
 
 ---
 
