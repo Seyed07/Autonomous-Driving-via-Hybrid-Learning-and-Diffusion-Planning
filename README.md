@@ -137,11 +137,11 @@ PPO enhances avoidance by optimizing steering and speed adjustments, minimizing 
 ## Combining IL and RL
 
 The integration of IL and RL leverages the strengths of both paradigms:
+- **IL:** Provides a stable, expert-guided starting point, reducing initial exploration demands.
+- **RL:** Enhances adaptability, optimizing for complex scenarios and long-term performance.
 
 <img width="1000" alt="download" src="https://github.com/user-attachments/assets/1be56b0f-dd35-4696-9a40-f3f592341042" />
 
-- **IL:** Provides a stable, expert-guided starting point, reducing initial exploration demands.
-- **RL:** Enhances adaptability, optimizing for complex scenarios and long-term performance.
 
 ### Training Phases
 
