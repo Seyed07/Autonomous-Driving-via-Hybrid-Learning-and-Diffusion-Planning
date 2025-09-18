@@ -1,7 +1,7 @@
-# 🚗 ILRLOA: Autonomous Driving with Imitation and Reinforcement Learning
+# 🚗Autonomous Driving with Imitation Learning , Reinforcement Learning and Inverse Reinforcement Learning 
 
 **Description:**  
-ILRLOA is an advanced autonomous driving system that combines **Imitation Learning (IL)**, **Reinforcement Learning (RL)**, and **Imitation from Observation via Reinforcement Learning (IRL)** to achieve robust lane following and obstacle avoidance in a Webots simulation environment. Leveraging computer vision for lane detection and LiDAR for obstacle awareness, the system employs a vision-guided expert policy to ensure safe and efficient navigation.
+ILRLOA is an advanced autonomous driving system that combines **Imitation Learning (IL)**, **Reinforcement Learning (RL)**, and **Inverse Reinforcement Learning (IRL)** to achieve robust lane following and obstacle avoidance in a Webots simulation environment. Leveraging computer vision for lane detection and LiDAR for obstacle awareness, the system employs a vision-guided expert policy to ensure safe and efficient navigation.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/986ae391-b70f-4203-be4b-81fb1047c9c8" width="80%" alt="ILRLOA Overview">
@@ -103,7 +103,7 @@ PPO employs a policy gradient approach:
 
 ### IRL Integration
 
-**Imitation from Observation via Reinforcement Learning (IRL)** enhances RL by providing rewards based on how closely agent actions resemble expert actions. A discriminator network distinguishes expert vs. agent state-action pairs, computing rewards as `-log(1 - D(s,a))`, where `D` is the probability of being expert-like. This guides the agent toward expert-like behavior during the `mixed` phase.
+**Inverse Reinforcement Learning (IRL)** enhances RL by providing rewards based on how closely agent actions resemble expert actions. A discriminator network distinguishes expert vs. agent state-action pairs, computing rewards as `-log(1 - D(s,a))`, where `D` is the probability of being expert-like. This guides the agent toward expert-like behavior during the `mixed` phase.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4429ce3b-3f08-4e1a-b2eb-15720f78398f" width="80%" alt="RL IRL Combination">
