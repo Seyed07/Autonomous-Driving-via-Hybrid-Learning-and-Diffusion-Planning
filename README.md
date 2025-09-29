@@ -1,33 +1,31 @@
-# 🚗Autonomous Driving with Imitation Learning , Reinforcement Learning and Inverse Reinforcement Learning 
+# 🚗 Advanced Autonomous Driving with Reinforcement Learning, Imitation Learning, and Diffusion Models (v2.0)
 
-**Description:**  
-ILRLOA is an advanced autonomous driving system that combines **Imitation Learning (IL)**, **Reinforcement Learning (RL)**, and **Inverse Reinforcement Learning (IRL)** to achieve robust lane following and obstacle avoidance in a Webots simulation environment. Leveraging computer vision for lane detection and LiDAR for obstacle awareness, the system employs a vision-guided expert policy to ensure safe and efficient navigation.
+**Description:**
+This project presents an advanced autonomous driving system that achieves an exceptional level of lane-following precision and obstacle avoidance safety within the Webots simulation environment. It achieves this through an innovative combination of **Reinforcement Learning (RL)** with the PPO algorithm, **Imitation Learning (IL)**, **Inverse Reinforcement Learning (IRL)**, and a novel **Diffusion Planner**. The system utilizes computer vision for lane detection and LiDAR sensors for environmental awareness, guided by a rule-based expert policy.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/986ae391-b70f-4203-be4b-81fb1047c9c8" width="80%" alt="ILRLOA Overview">
 </p>
 
-## Access to Source Code
+## Source Code Access
 
-The source code for ILRLOA is **not publicly available** by default.  
-Access is granted **upon request and approval**.
+The source code for this project is **not publicly available** by default.
+Access to the code is granted only upon **request and after approval**.
 
-To access or use the code, please **contact the project lead via email** or **open an issue** in the repository, stating your affiliation and intended use.
+To gain access or use the code, please **contact the project lead via email** or open a **new Issue** in this repository, stating your organizational affiliation and your intended use case.
 
-- Email: `seyedahmad.hosseini@aut.ac.ir` - `hosseiniahmad07@gmail.com`
+- **Email:** `seyedahmad.hosseini@aut.ac.ir` - `hosseiniahmad07@gmail.com`
 
-Upon approval, you will be granted access to the private repository.
-
-Thank you for your understanding.
+Once approved, you will be granted access to the private repository. Thank you for your understanding.
 
 ---
 
-## 🧠 Overview of the Learning Framework
+## 🧠 Architectural Overview & Learning Framework
 
-The ILRLOA project develops an autonomous driving system that integrates **Imitation Learning (IL)**, **Reinforcement Learning (RL)**, and **IRL** to navigate a simulated Webots environment, achieving precise lane following and adaptive obstacle avoidance. The system uses camera-based lane detection and LiDAR-based obstacle detection, orchestrated by a vision-guided expert policy. The learning process unfolds in two main phases:
+This project develops an autonomous driving agent that implements precise navigation in Webots by integrating **RL, IL, IRL,** and **Diffusion Models**. This multi-layered architecture allows the agent to learn from both explicit expert rules (imitation) and trial-and-error (reinforcement), while leveraging generative models to predict safe and optimal trajectories.
 
-- **Imitation Phase:** The agent learns to mimic the expert’s behavior using Behavioral Cloning (BC), establishing foundational navigation skills.
-- **Mixed Phase:** The agent blends expert and RL-driven actions, enhanced by IRL rewards, to balance stability and exploration.
+- **Imitation Phase:** The agent learns basic navigation skills by mimicking the expert's behavior using **Behavioral Cloning (BC)**.
+- **Mixed Phase:** The agent balances **stability** (imitating the expert) and **exploration** (learning from experience) by combining environmental rewards with rewards derived from IRL.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e93aa0e7-f219-408c-91d0-6ac8be66d622" width="75%" alt="Imitation Learning Phase">
@@ -35,102 +33,87 @@ The ILRLOA project develops an autonomous driving system that integrates **Imita
 
 ---
 
-## Imitation Learning (Behavioral Cloning)
+## 💡 Key Innovation: Diffusion Planner with Energy-Based Guidance
 
-**Imitation Learning (IL)** enables the agent to replicate the expert policy by mapping observations to expert actions. In ILRLOA, IL is implemented through **Behavioral Cloning (BC)**, where the agent learns to mimic the expert’s steering and speed commands.
+A standout innovation in this project is the use of a **Diffusion Planner** to generate safe and optimal trajectories (sequences of actions). This planner is based on **Denoising Diffusion Probabilistic Models (DDPMs)**.
 
-### Expert Policy (Vision-Guided)
+- **Architecture:** The model employs a 1D `U-Net` to predict and remove noise from a perturbed trajectory.
+- **Trajectory Generation Process:** During the reverse sampling (denoising) process, the generated trajectory is steered toward safer and more optimal regions by a **Guidance Energy function**.
+- **Guidance Energy Function (`GuidanceEnergy`):** This function computes gradients from various cost components to refine the trajectory. These costs include:
+    - **Lane Cost (`E_lane`):** Penalizes deviation from the lane center.
+    - **LiDAR Cost (`E_lidar`):** Penalizes proximity to obstacles, with adaptive weighting based on the hazard level.
+    - **Jerk Cost (`E_jerk`):** Penalizes abrupt changes in steering or speed to ensure smooth motion.
+    - **Stability Cost (`E_stability`):** Encourages maintaining a stable speed and steering angle.
+    - **Expert Cost (`E_expert`):** Encourages staying close to the expert's suggested trajectory.
 
-The expert policy orchestrates navigation by processing camera and LiDAR data:
-
-- **Camera-Based Lane Detection:**  
-  Processes camera images to identify lane boundaries and compute the lane centerline. The pipeline includes preprocessing (e.g., edge detection, color filtering) and geometric analysis to detect lane lines and critical features like solid yellow lines, which trigger safety overrides.
-
-- **LiDAR-Based Obstacle Detection:**  
-  Analyzes LiDAR data to detect obstacles within predefined safety thresholds (`MIN_SAFE_DISTANCE`, `WARNING_DISTANCE`), estimating their size and position to inform avoidance strategies.
-
-- **Finite State Machine (FSM):**  
-  Manages navigation states (`LANE_FOLLOWING`, `AVOIDING`, `DRIVING_STRAIGHT`, `RETURNING`) to ensure structured and predictable behavior.
-
-- **Action Generation:**  
-  Produces normalized steering and speed commands, dynamically adjusting steering angles and straight-driving durations based on obstacle size and position for adaptive maneuvers.
-
-*The vision-guided expert policy provides a reliable foundation for lane following and obstacle avoidance, leveraging computer vision for precise environmental interpretation.*
-
-### Behavioral Cloning (BC)
-
-BC trains a neural network to replicate expert actions:
-
-- **Data Collection:**  
-  Stores observations (camera images and LiDAR data) and corresponding expert actions in a **structured experience buffer** (`state_buffers`), categorized by vehicle state (e.g., lane following, avoiding). This ensures diverse training scenarios.
-
-- **Prioritized Sampling:**  
-  Experiences are assigned **priority scores** based on safety (obstacle proximity), action diversity (difference between model and expert actions), and training phase. This prioritizes critical and informative samples, enhancing learning efficiency.
-
-- **Training Process:**  
-  BC training adapts to the phase: less frequent in the `imitation` phase and more frequent in the `mixed` phase to refine the policy. It uses an `Adam` optimizer, `MSELoss`, and a `ReduceLROnPlateau` scheduler to prevent overfitting and adapt to performance changes.
-
-- **Purpose:**  
-  BC accelerates learning by initializing the agent with expert-like navigation skills, reducing exploration needs in RL phases and providing a stable foundation.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/32966659-7a21-4a06-b377-239d0654a955" width="75%" alt="BC Process">
-</p>
+This mechanism allows the agent to formulate a safe, short-term "plan" for the immediate future before executing an action, effectively using it as a "dynamic expert."
 
 ---
 
-## Reinforcement Learning (PPO)
+## 🎭 Imitation Learning (Behavioral Cloning)
 
-**Reinforcement Learning (RL)** optimizes the agent’s policy through environmental interactions, maximizing cumulative rewards. ILRLOA uses **Proximal Policy Optimization (PPO)**, a stable and efficient RL algorithm, to refine navigation performance.
+Imitation Learning (IL) enables the agent to replicate the expert's behavior by directly mapping observations to expert actions.
+
+### Expert Policy (Rule-Based & Vision-Based)
+
+The expert policy generates reference actions by processing sensor data:
+- **Camera-Based Lane Detection:** Extracts road lines and calculates the lane center by processing images (grayscale conversion, Canny edge detection, Hough transform).
+- **LiDAR-Based Obstacle Detection:** Identifies obstacles, estimates their size, and determines an appropriate avoidance strategy by analyzing a LiDAR history matrix.
+- **Finite State Machine (FSM):** Manages driving states (`LANE_FOLLOWING`, `AVOIDING`, `DRIVING_STRAIGHT`, `RETURNING`) to ensure structured and predictable behavior.
+
+### Behavioral Cloning (BC)
+- **Data Collection:** Experiences (expert observations and actions) are stored in **structured and separate experience buffers** (`state_buffers`) for each FSM state.
+- **Prioritized Sampling:** Experiences are scored based on **safety priority** (proximity to obstacles), **diversity priority** (discrepancy between model and expert actions), and **phase priority**. This focuses training on critical and informative samples.
+- **Training Process:** BC training is conducted using the `Adam` optimizer, `MSELoss` cost function, and a `ReduceLROnPlateau` scheduler to adjust the learning rate and prevent overfitting.
+
+---
+
+## 🤖 Reinforcement Learning (PPO) & Inverse Reinforcement Learning (IRL)
+
+**Reinforcement Learning (RL)** optimizes the agent's policy through interaction with the environment to maximize cumulative reward. This project utilizes the **Proximal Policy Optimization (PPO)** algorithm.
 
 ### PPO Framework
+- **Policy:** Maps observations (image and LiDAR data) to a probability distribution over continuous actions (steering and speed).
+- **Feature Extractor (`CustomCNNWithLiDAR`):** A hybrid architecture that uses a CNN to process images and an MLP to process LiDAR data, producing a shared feature vector (size 512). This extractor is shared between the PPO policy and the IRL Discriminator.
 
-PPO employs a policy gradient approach:
+### Integration with IRL
+**Inverse Reinforcement Learning (IRL)** enhances the learning process by inferring a reward function from the expert's behavior.
+- **Discriminator:** A classifier network that learns to distinguish between expert and agent (state-action) pairs.
+- **IRL Reward:** An additional reward is computed as `$r_{irl} = -\log(1 - D(s, a))$`, where `D(s, a)` is the discriminator's predicted probability that the action `a` in state `s` is "expert-like."
+- **Extractor Synchronization:** To improve stability, the weights of the Discriminator's feature extractor are periodically synchronized with the PPO's feature extractor.
 
-- **Policy:** Maps observations to a probabilistic distribution over continuous actions (steering and speed).
-- **Value Function:** Estimates long-term rewards for state evaluation.
-- **Optimization:** Uses a clipped objective to ensure stable policy updates, balancing exploration and exploitation.
-
-#### Environment and Rewards
-
-- **Observation Space:** Combines resized camera images (`(64, 64, 3)`) and LiDAR data (`180` points) for a comprehensive environmental view.
-- **Action Space:** Continuous steering and speed commands, normalized for consistency.
-- **Reward Structure:** A state-aware reward function (`calculate_reward`) tailors rewards to navigation states:
-  - *Action Alignment*: Encourages similarity to expert actions in early training.
-  - *Safety*: Penalizes proximity to obstacles to prioritize collision avoidance.
-  - *Lane Keeping*: Rewards alignment with the lane center, penalizing deviations.
-  - *Progress*: Incentivizes efficient forward movement.
-
-### IRL Integration
-
-**Inverse Reinforcement Learning (IRL)** enhances RL by providing rewards based on how closely agent actions resemble expert actions. A discriminator network distinguishes expert vs. agent state-action pairs, computing rewards as `-log(1 - D(s,a))`, where `D` is the probability of being expert-like. This guides the agent toward expert-like behavior during the `mixed` phase.
+### Hybrid Reward Function
+The final reward is a combination of the environmental reward and the IRL reward: `$Reward = w_{env} \cdot R_{env} + w_{irl} \cdot r_{irl}$`. This structure incentivizes the agent to achieve objective goals (safety, lane-following) while also learning the expert's behavioral style.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4429ce3b-3f08-4e1a-b2eb-15720f78398f" width="80%" alt="RL IRL Combination">
 </p>
 
-### Training Process
-
-PPO iteratively collects interactions, computes advantages, and updates the policy to maximize combined RL and IRL rewards. The shared neural architecture with BC ensures seamless refinement of learned behaviors.
-
-### Obstacle Avoidance in RL
-
-PPO, enhanced by IRL, optimizes steering and speed adjustments, minimizing lane deviations and adapting to complex or unseen obstacle configurations for smoother, safer maneuvers.
-
 ---
 
-## 📊 Evaluation
+## 📊 Results & Evaluation
+
+The system achieved outstanding results in simulation tests. The plots below show the model's performance over time and a comparison between the agent's and expert's actions.
+- **Average Reward:** Achieved a mean reward above 150 (out of a maximum of 200).
+- **Collision Rate:** Less than 1 collision per 1000 timesteps.
+- **Lane Following Error:** Lateral deviation of less than 15 pixels.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ab9d1dcf-2fcf-410e-a125-94b96bbcaea6" width="80%" alt="Evaluation Graph">
 </p>
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3cc16b3c-c5dd-4d13-a989-ffee7e45fd37" width="80%" alt="Model Actions">
+<img width="5943" height="5307" alt="5 64 50000" src="https://github.com/user-attachments/assets/0ca9e986-8939-4389-8076-ad592b68f2f5" />
 </p>
+
 
 ---
 
-## 🚦 Conclusion
+## 🚦 Conclusion & Future Work
 
-ILRLOA demonstrates a sophisticated fusion of **Imitation Learning**, **Reinforcement Learning**, and **IRL**, driven by computer vision and LiDAR, to achieve robust autonomous navigation. Clone, explore, and contribute to advance the future of self-driving systems.
+This project demonstrates a powerful and unified architecture combining **Imitation Learning, Reinforcement Learning, Inverse Reinforcement Learning, and Diffusion Models**. Aided by computer vision and LiDAR data, it culminates in a robust and safe autonomous driving system.
+
+**Suggestions for Future Work:**
+- **GPS/IMU Integration:** Add spatial data for large-scale navigation.
+- **Sim-to-Real Transfer:** Adapt the model for use on real-world robotic platforms.
+- **Transformer-Based Planner:** Replace the U-Net architecture in the Diffusion Planner with a Transformer to better capture temporal dependencies.
+- **Multi-Task Learning:** Simultaneously train for additional tasks, such as traffic sign recognition.
