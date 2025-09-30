@@ -98,8 +98,13 @@ The system achieved outstanding results in simulation tests. The plots below sho
 - **Collision Rate:** Less than 1 collision per 1000 timesteps.
 - **Lane Following Error:** Lateral deviation of less than 15 pixels.
 
-<p align="center">
+<!-- <p align="center">
   <img src="https://github.com/user-attachments/assets/ab9d1dcf-2fcf-410e-a125-94b96bbcaea6" width="80%" alt="Evaluation Graph">
+</p> -->
+<p align="center">
+  <video width="80%" controls>
+    <source src="https://Seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/result.mp4" type="video/mp4">
+  </video>
 </p>
 <p align="center">
 <img width="5943" height="5307" alt="5 64 50000" src="https://github.com/user-attachments/assets/0ca9e986-8939-4389-8076-ad592b68f2f5" />
