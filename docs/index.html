@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models">
+  <meta name="description" content="IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models">
   <meta name="keywords" content="IRL-DAL, Autonomous Driving, Diffusion Models, Inverse Reinforcement Learning, Trajectory Planning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving</title>
@@ -20,10 +19,25 @@
   <!-- Academicons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
   <!-- Custom CSS -->
   <style>
     /* Custom Styles for IRL-DAL */
-    .dnerf { color: #0066cc; font-weight: bold; }
+    .dnerf { 
+      color: #0066cc; 
+      font-weight: bold; 
+    }
     
     .publication-title {
       font-family: 'Google Sans', sans-serif;
@@ -85,6 +99,32 @@
       height: auto;
     }
     
+    /* Zoom effect on video in abstract section */
+    figure.is-pulled-right video {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    figure.is-pulled-right video:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Zoom effect on all images */
+    .image,
+    figure img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .image:hover,
+    figure img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    
     .publication-video iframe {
       width: 100%;
       height: 400px;
@@ -102,353 +142,336 @@
     .navbar-burger:hover {
       background-color: transparent;
     }
+    
+    .video-container video {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .video-container video:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
   </style>
-  
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  
-  <!-- Google Analytics (Optional) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
 </head>
+
 <body>
-
-<!-- Navigation -->
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu" id="navMenu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://aut.ac.ir">
-        <span class="icon">
-          <i class="fas fa-home"></i>
-        </span>
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">More Research</a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://arxiv.org">arXiv</a>
-          <a class="navbar-item" href="https://github.com">GitHub</a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://aut.ac.ir">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">More Research</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://arxiv.org">arXiv</a>
+            <a class="navbar-item" href="https://github.com">GitHub</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Hero Section -->
-<section class="hero">
-  <div class="hero-body">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models
+            </h1>
+            
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://aut.ac.ir">Seyed Ahmad Hosseini Miangoleh</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://aut.ac.ir">Farzaneh Abdollahi</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <sup>1</sup>Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran
+              </span>
+            </div>
+
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="IRL-DAL_paper.pdf" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/sahosseini/IRL-DAL" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Overview Section -->
+  <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">
-            IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models
-          </h1>
-          
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://aut.ac.ir">Seyed Ahmad Hosseini Miangoleh</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://aut.ac.ir">Farzaneh Abdollahi</a><sup>1</sup>
-            </span>
-          </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <sup>1</sup>Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran
-            </span>
-          </div>
-
-          <div class="publication-links">
-            <span class="link-block">
-              <a href="IRL-DAL_paper.pdf" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                <span>Paper</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://arxiv.org/abs/2503.XXXXX" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="ai ai-arxiv"></i></span>
-                <span>arXiv</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://www.youtube.com/watch?v=XXXXX" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fab fa-youtube"></i></span>
-                <span>Video</span>
-              </a>
-            </span>
-            <span class="link-block">
-              <a href="https://github.com/sahosseini/IRL-DAL" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fab fa-github"></i></span>
-                <span>Code</span>
-              </a>
-            </span>
+        <div class="column is-full has-text-centered">
+          <h2 class="title is-3">Architecture Overview</h2>
+          <div class="content">
+            <p>
+              The <span class="dnerf">IRL-DAL</span> framework integrates four core components: a hybrid IL-IRL-RL training curriculum, 
+              an energy-guided diffusion planner, a learnable adaptive mask for contextual perception, and a safety-aware experience correction mechanism.
+            </p>
+            <img src="main.png" alt="IRL-DAL Architecture" class="image is-fullwidth">
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Abstract Section -->
+  <!-- Abstract Section -->
+  <section class="section pt-0 pb-0">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>
+          This study introduces <span class="dnerf">IRL-DAL</span> (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner), 
+          an integrated framework that unites reinforcement learning with generative trajectory planning for autonomous driving. 
+          At its foundation lies the Diffusion-based Adaptive Lookahead (DAL) planner — a conditional diffusion model designed to generate safe and 
+          dynamically feasible motion trajectories governing both steering and velocity control.
+        </p>
+
+        <figure class="is-pulled-right ml-4 mb-2" style="max-width: 45%; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <video width="100%" controls>
+            <source src="model.mp4" type="video/mp4">
+            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+          </video>
+        </figure>
+
+        <p>
+          Distinct from conventional sampling approaches, DAL operates in a classifier-free mode guided by a multi-objective energy function. 
+          This function automatically balances lane keeping, obstacle avoidance, and control stability in response to real-time perceptual signals, 
+          allowing the agent to emphasize safety under challenging conditions without compromising efficiency.
+        </p>
+        
+        <p>
+          To address sample inefficiency and promote stable policy convergence, training proceeds through a two-stage curriculum implemented 
+          in the Webots simulator. The process begins with Behavioral Cloning (BC) for policy initialization and transitions to 
+          Proximal Policy Optimization (PPO) for refinement. During the PPO stage, a hybrid reward formulation merges sparse environmental feedback 
+          with a dense, learned reward obtained via Inverse Reinforcement Learning (IRL), thereby encouraging expert-level driving behavior.
+        </p>
+        
+        <p>
+          Comprehensive simulation results show that <span class="dnerf">IRL-DAL</span> consistently surpasses standard baselines in terms of safety, 
+          control smoothness, and task completion. These findings validate the proposed framework's capability to produce robust, precise, and 
+          safety-compliant driving policies suitable for deployment in safety-critical autonomous systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Performance Comparison -->
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <h2 class="title is-3 has-text-centered">Performance Comparison</h2>
+          <div class="paper-table">
+            <table class="table is-bordered is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Mean Reward ↑</th>
+                  <th>Collisions/1k Steps ↓</th>
+                  <th>Success Rate (%) ↑</th>
+                  <th>BC Loss ↓</th>
+                  <th>Action Sim. (%) ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Baseline (PPO + Uniform)</td>
+                  <td>85</td>
+                  <td>0.63</td>
+                  <td>78</td>
+                  <td>17.1</td>
+                  <td>~65</td>
+                </tr>
+                <tr>
+                  <td>Structured Replay</td>
+                  <td>120 (+41%)</td>
+                  <td>0.30</td>
+                  <td>88</td>
+                  <td>12.3</td>
+                  <td>~75</td>
+                </tr>
+                <tr>
+                  <td>Generative Planner</td>
+                  <td>155 (+29%)</td>
+                  <td>0.15</td>
+                  <td>92</td>
+                  <td>13.0</td>
+                  <td>~80</td>
+                </tr>
+                <tr class="is-selected">
+                  <td><strong>IRL-DAL (Full)</strong></td>
+                  <td><strong>180 (+16%)</strong></td>
+                  <td><strong>0.05</strong></td>
+                  <td><strong>96</strong></td>
+                  <td><strong>7.4</strong></td>
+                  <td><strong>~85</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+<!-- Key Components Section -->
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            This study introduces <span class="dnerf">IRL-DAL</span> (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner), an integrated framework that unites reinforcement learning with generative trajectory planning for autonomous driving. At its foundation lies the Diffusion-based Adaptive Lookahead (DAL) planner — a conditional diffusion model designed to generate safe and dynamically feasible motion trajectories governing both steering and velocity control.
-          </p>
-          <p>
-            Distinct from conventional sampling approaches, DAL operates in a classifier-free mode guided by a multi-objective energy function. This function automatically balances lane keeping, obstacle avoidance, and control stability in response to real-time perceptual signals, allowing the agent to emphasize safety under challenging conditions without compromising efficiency.
-          </p>
-          <p>
-            To address sample inefficiency and promote stable policy convergence, training proceeds through a two-stage curriculum implemented in the Webots simulator. The process begins with Behavioral Cloning (BC) for policy initialization and transitions to Proximal Policy Optimization (PPO) for refinement. During the PPO stage, a hybrid reward formulation merges sparse environmental feedback with a dense, learned reward obtained via Inverse Reinforcement Learning (IRL), thereby encouraging expert-level driving behavior.
-          </p>
-          <p>
-            Comprehensive simulation results show that <span class="dnerf">IRL-DAL</span> consistently surpasses standard baselines in terms of safety, control smoothness, and task completion. These findings validate the proposed framework's capability to produce robust, precise, and safety-compliant driving policies suitable for deployment in safety-critical autonomous systems.
-          </p>
+    <div class="content">
+      
+      <!-- Two-Phase Curriculum & Diffusion Planner Row -->
+      <div class="columns is-centered">
+        
+        <!-- Column 1: Two-Phase Training Curriculum -->
+        <div class="column">
+          <h3 class="title is-4 has-text-centered">Two-Phase Training Curriculum</h3>
+          <div class="content has-text-justified">
+            <p>
+              To ensure stable convergence and sample efficiency, our agent is trained via a two-phase curriculum. <strong>Phase 1 (Behavioral Cloning)</strong> involves pre-training the policy for 20,000 steps using an expert dataset generated by a Finite State Machine (FSM). This establishes a robust behavioral prior, teaching the agent fundamental driving skills. <strong>Phase 2 (IRL-PPO)</strong> fine-tunes the policy for 30,000 steps using a hybrid reward signal. This signal combines sparse task rewards with a dense, GAIL-based imitation reward, encouraging the agent to explore complex scenarios while adhering to expert-like decision-making.
+            </p>
+          </div>
+          <img src="fsm.png" alt="Training Curriculum Diagram" class="image is-fullwidth">
+        </div>
+
+        <!-- Column 2: Energy-Guided Diffusion Planner -->
+        <div class="column">
+          <h3 class="title is-4 has-text-centered">Energy-Guided Diffusion Planner</h3>
+          <div class="content has-text-justified">
+            <p>
+              The Diffusion Planner acts as a critical, on-demand safety module. It is activated only in high-risk states identified by the base policy, making it computationally efficient. Upon activation, it generates a set of safe, short-horizon trajectories. The optimal trajectory is selected via a multi-objective energy function that expertly balances three critical goals: <strong>lane adherence</strong> to maintain course, <strong>obstacle avoidance</strong> for collision prevention, and <strong>control smoothness</strong> (jerk minimization) to ensure passenger comfort and stability.
+            </p>
+          </div>
+          <!-- Note: Make sure the image dimensions are appropriate for the layout -->
+          <img src="trajectory.png" alt="Energy-Guided Trajectory Planning" class="image is-fullwidth">
         </div>
       </div>
-    </div>
 
-  <!-- Paper Video -->
-  <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
-      <h2 class="title is-3">Overview Video</h2>
-      <div class="publication-video">
-        <video width="650" controls>
-          <source src="model.mp4" type="video/mp4">
-          مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
-        </video>
-      </div>
-    </div>
-  </div>
-
-  </div>
-</section>
-
-
-<!-- Main Content -->
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <!-- Performance Comparison (اول: مهم‌ترین) -->
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <h2 class="title is-3 has-text-centered">Performance Comparison</h2>
-        <div class="paper-table">
-          <table class="table is-bordered is-fullwidth">
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Mean Reward ↑</th>
-                <th>Collisions/1k Steps ↓</th>
-                <th>Success Rate (%) ↑</th>
-                <th>BC Loss ↓</th>
-                <th>Action Sim. (%) ↑</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Baseline (PPO + Uniform)</td>
-                <td>85</td>
-                <td>0.63</td>
-                <td>78</td>
-                <td>17.1</td>
-                <td>~65</td>
-              </tr>
-              <tr>
-                <td>Structured Replay</td>
-                <td>120 (+41%)</td>
-                <td>0.30</td>
-                <td>88</td>
-                <td>12.3</td>
-                <td>~75</td>
-              </tr>
-              <tr>
-                <td>Generative Planner</td>
-                <td>155 (+29%)</td>
-                <td>0.15</td>
-                <td>92</td>
-                <td>13.0</td>
-                <td>~80</td>
-              </tr>
-              <tr class="is-selected">
-                <td><strong>IRL-DAL (Full)</strong></td>
-                <td><strong>180 (+16%)</strong></td>
-                <td><strong>0.05</strong></td>
-                <td><strong>96</strong></td>
-                <td><strong>7.4</strong></td>
-                <td><strong>~85</strong></td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Learnable Adaptive Mask (LAM) Row -->
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <h2 class="title is-3 has-text-centered">Learnable Adaptive Mask (LAM)</h2>
+          <div class="content has-text-justified">
+            <p>
+              The Learnable Adaptive Mask (LAM) is a state-aware perception module designed for intelligent allocation of visual attention. It dynamically adjusts the agent's perceptual focus based on real-time driving context. At high speeds, it expands the mask to prioritize the <strong>distant horizon</strong>, enabling effective long-term planning. Conversely, when LiDAR detects nearby hazards or in dense traffic, LAM constricts the focus to the <strong>near-field</strong>, concentrating computational resources on immediate threats for precise, reactive maneuvers.
+            </p>
+          </div>
+          <img src="attention.png" alt="Learnable Adaptive Mask Visualization" class="image is-fullwidth">
         </div>
       </div>
-    </div>
 
-    <!-- Architecture Overview (دوم: معماری) -->
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <h2 class="title is-3 has-text-centered">Architecture Overview</h2>
-        <div class="content has-text-centered">
-          <p>The <span class="dnerf">IRL-DAL</span> framework integrates four core components: a hybrid IL-IRL-RL training curriculum, energy-guided diffusion planner, learnable adaptive mask for contextual perception, and safety-aware experience correction mechanism.</p>
-        <img src="main.png" alt="IRL-DAL Architecture" class="image is-fullwidth">
+      <!-- Key Contributions Row -->
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <h2 class="title is-3 has-text-centered">Key Contributions</h2>
+          <div class="content">
+            <p>Our work introduces several novel contributions to the field of autonomous driving:</p>
+            <ul>
+              <li>
+                <strong>Hybrid Learning Synthesis:</strong> A novel training framework that synergizes Behavioral Cloning for stable initialization, Inverse Reinforcement Learning (via GAIL) for dense, expert-aligned reward shaping, and Proximal Policy Optimization for robust exploration and refinement.
+              </li>
+              <li>
+                <strong>Diffusion Planning as a Corrective Safety Layer:</strong> The first application of a conditional diffusion model as an on-demand, corrective safety planner for an active RL agent, ensuring safety compliance without stifling the policy's learning and exploration process.
+              </li>
+              <li>
+                <strong>State-Guided Adaptive Perception:</strong> A lightweight and effective attention mechanism (LAM) that modulates perceptual focus based on explicit contextual variables like vehicle speed and LiDAR-based hazard levels, enabling efficient and context-appropriate visual processing.
+              </li>
+              <li>
+                <strong>Safety-Aware Experience Correction (SAEC):</strong> A novel feedback loop where interventions from the safety planner are not discarded but are distilled into structured learning experiences. This allows the RL policy to learn directly from its near-failures, progressively enhancing its intrinsic safety.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+      
     </div>
-
-    <!-- Key Components (سوم: اجزا - دو ستون) -->
-    <div class="columns is-centered">
-      <div class="column is-half">
-        <!-- LAM Component -->
-        <h3 class="title is-4">Two-Phase Training Curriculum</h3>
-        <div class="content has-text-justified">
-                <p>Phase 1: Behavioral Cloning pre-training (20k steps) establishes expert-like behaviors. Phase 2: IRL-PPO fine-tuning (30k steps) with hybrid rewards enables exploration while maintaining safety.</p>
-        </div>
-        <img src="fsm.png" alt="IRL-DAL Architecture" class="image is-fullwidth">
-      </div>
-
-      <!--  -->
-      <div class="column is-half">
-        <!-- Diffusion Planner -->
-        <h3 class="title is-4">Energy-Guided Diffusion Planner</h3>
-        <div class="content has-text-justified">
-          <p>Activated in high-risk states, generates safe short-horizon trajectories optimized by a multi-objective energy function balancing lane adherence, obstacle avoidance, and control smoothness.</p>
-        </div>
-        <img src="trajectory.png" alt="IRL-DAL Architecture" style="width: 500px; height: 200px; max-width: 100%;">
-      </div>
-    </div>
-    <!-- Training Curriculum (چهارم: آموزش) -->
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <h2 class="title is-3 has-text-centered">Learnable Adaptive Mask (LAM)</h2>
-        <div class="content has-text-justified">
-          <p>Dynamically adjusts visual attention based on vehicle speed and LiDAR proximity cues, focusing on distant horizons at high speeds and near-field hazards in congested scenarios.</p>
-        </div>
-        <img src="attention.png" alt="IRL-DAL Architecture" class="image is-fullwidth">
-      </div>
-    </div>
-
-    <!-- Related Work (آخر: کارهای مرتبط) -->
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <h2 class="title is-3 has-text-centered">Related Work</h2>
-        <div class="content has-text-justified">
-          <p>Our work builds upon and extends recent advances in several key areas of autonomous driving research:</p>
-          <ul>
-            <li><strong>Hybrid Learning:</strong> Combines Behavioral Cloning with PPO, extending GAIL-based IRL for dense reward shaping</li>
-            <li><strong>Diffusion Planning:</strong> First use of conditional diffusion models as on-demand safety layers for active RL policies</li>
-            <li><strong>Adaptive Perception:</strong> Lightweight attention mechanism guided by explicit contextual variables (speed, proximity)</li>
-            <li><strong>Safety Assurance:</strong> Experience correction mechanism that distills diffusion planner interventions into RL policy</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- BibTeX Section -->
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{hosseini2025irldal,
+
+  <!-- BibTeX Section -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{hosseini2025irldal,
   author    = {Hosseini Miangoleh, Seyed Ahmad and Abdollahi, Farzaneh},
   title     = {IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models},
   journal   = {Submitted to IEEE Transactions on Intelligent Transportation Systems},
   year      = {2025},
 }</code></pre>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link" href="IRL-DAL_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/sahosseini/IRL-DAL" class="external-link">
-        <i class="fab fa-github"></i>
-      </a>
     </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            <a href="https://github.com/sahosseini/IRL-DAL.github.io">Source code</a> available on GitHub.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+  </section>
 
-<!-- JavaScript -->
-<script>
-  // Navbar Mobile Toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-    
-    if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(el => {
-        el.addEventListener('click', () => {
-          const target = el.dataset.target;
-          const $target = document.getElementById(target);
-          
-          el.classList.toggle('is-active');
-          $target.classList.toggle('is-active');
+  <!-- JavaScript -->
+  <script>
+    // Navbar Mobile Toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      
+      if ($navbarBurgers.length > 0) {
+        $navbarBurgers.forEach(el => {
+          el.addEventListener('click', () => {
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+            
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+          });
         });
-      });
+      }
+    });
+
+    // Carousel Functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel .item');
+    
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
     }
-  });
-
-  // Carousel Functionality
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.carousel .item');
-  
-  function nextSlide() {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
-  }
-  
-  function prevSlide() {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    slides[currentSlide].classList.add('active');
-  }
-  
-  // Auto-advance carousel every 5 seconds
-  setInterval(nextSlide, 5000);
-  
-  // Add navigation buttons
-  const carousel = document.getElementById('results-carousel');
-  carousel.innerHTML = `
-    <button onclick="prevSlide()" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,0.5);color:white;border:none;padding:10px;border-radius:50%;cursor:pointer;"><i class="fas fa-chevron-left"></i></button>
-    <button onclick="nextSlide()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,0.5);color:white;border:none;padding:10px;border-radius:50%;cursor:pointer;"><i class="fas fa-chevron-right"></i></button>
-    ${carousel.innerHTML}
-  `;
-  
-  // Initialize first slide
-  slides[0].classList.add('active');
-</script>
-
+    
+    function prevSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+    
+    // Auto-advance carousel every 5 seconds
+    setInterval(nextSlide, 5000);
+    
+    // Initialize first slide
+    if (slides.length > 0) {
+      slides[0].classList.add('active');
+    }
+  </script>
 </body>
 </html>
