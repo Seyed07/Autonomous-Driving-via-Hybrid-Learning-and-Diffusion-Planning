@@ -1,124 +1,113 @@
-# 🚗 Advanced Autonomous Driving with Reinforcement Learning, Imitation Learning, and Diffusion Models (v2.0)
+# IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models
 
-**Description:**
-This project presents an advanced autonomous driving system that achieves an exceptional level of lane-following precision and obstacle avoidance safety within the Webots simulation environment. It achieves this through an innovative combination of **Reinforcement Learning (RL)** with the PPO algorithm, **Imitation Learning (IL)**, **Inverse Reinforcement Learning (IRL)**, and a novel **Diffusion Planner**. The system utilizes computer vision for lane detection and LiDAR sensors for environmental awareness, guided by a rule-based expert policy.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/986ae391-b70f-4203-be4b-81fb1047c9c8" width="80%" alt="ILRLOA Overview">
-</p>
-
-## Source Code Access
-
-The source code for this project is **not publicly available** by default.
-Access to the code is granted only upon **request and after approval**.
-
-To gain access or use the code, please **contact the project lead via email** or open a **new Issue** in this repository, stating your organizational affiliation and your intended use case.
-
-- **Email:** `seyedahmad.hosseini@aut.ac.ir` - `hosseiniahmad07@gmail.com`
-
-Once approved, you will be granted access to the private repository. Thank you for your understanding.
+> **Authors:** Seyed Ahmad Hosseini Miangoleh, Farzaneh Abdollahi  
+> **Affiliation:** Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran  
 
 ---
 
-## 🧠 Architectural Overview & Learning Framework
+## 🧠 Overview
 
-This project develops an autonomous driving agent that implements precise navigation in Webots by integrating **RL, IL, IRL,** and **Diffusion Models**. This multi-layered architecture allows the agent to learn from both explicit expert rules (imitation) and trial-and-error (reinforcement), while leveraging generative models to predict safe and optimal trajectories.
-
-- **Imitation Phase:** The agent learns basic navigation skills by mimicking the expert's behavior using **Behavioral Cloning (BC)**.
-- **Mixed Phase:** The agent balances **stability** (imitating the expert) and **exploration** (learning from experience) by combining environmental rewards with rewards derived from IRL.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/e93aa0e7-f219-408c-91d0-6ac8be66d622" width="75%" alt="Imitation Learning Phase">
-</p>
+**IRL-DAL (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner)** integrates *Imitation Learning (IL)*, *Inverse Reinforcement Learning (IRL)*, and *Reinforcement Learning (RL)* with a **Diffusion-based Safety Planner (DAL)**.  
+Its objective: achieving **safe, adaptive, and human-like trajectory planning** for autonomous driving systems.
 
 ---
 
-## 💡 Key Innovation: Diffusion Planner with Energy-Based Guidance
+## 🚀 Core Contributions
 
-A standout innovation in this project is the use of a **Diffusion Planner** to generate safe and optimal trajectories (sequences of actions). This planner is based on **Denoising Diffusion Probabilistic Models (DDPMs)**.
+1. **Hybrid IL–IRL–RL Learning Architecture**  
+   - Combines **Behavioral Cloning (BC)** pre-training with **PPO fine-tuning**.  
+   - Incorporates **adversarial IRL (GAIL)** for dense intent alignment.  
+   - Uses a **hybrid reward** blending environment and imitation feedback.
+    
+2. **Diffusion-based Adaptive Lookahead (DAL) Planner**  
+   - Conditional diffusion model acting as a *safety consultant*.  
+   - Generates safe short-horizon trajectories using an **energy-guided** objective.  
+   - Penalizes collisions, lane deviation, and control jerk dynamically.
 
-- **Architecture:** The model employs a 1D `U-Net` to predict and remove noise from a perturbed trajectory.
-- **Trajectory Generation Process:** During the reverse sampling (denoising) process, the generated trajectory is steered toward safer and more optimal regions by a **Guidance Energy function**.
-- **Guidance Energy Function (`GuidanceEnergy`):** This function computes gradients from various cost components to refine the trajectory. These costs include:
-    - **Lane Cost (`E_lane`):** Penalizes deviation from the lane center.
-    - **LiDAR Cost (`E_lidar`):** Penalizes proximity to obstacles, with adaptive weighting based on the hazard level.
-    - **Jerk Cost (`E_jerk`):** Penalizes abrupt changes in steering or speed to ensure smooth motion.
-    - **Stability Cost (`E_stability`):** Encourages maintaining a stable speed and steering angle.
-    - **Expert Cost (`E_expert`):** Encourages staying close to the expert's suggested trajectory.
-
-This mechanism allows the agent to formulate a safe, short-term "plan" for the immediate future before executing an action, effectively using it as a "dynamic expert."
-
----
-
-## 🎭 Imitation Learning (Behavioral Cloning)
-
-Imitation Learning (IL) enables the agent to replicate the expert's behavior by directly mapping observations to expert actions.
-
-### Expert Policy (Rule-Based & Vision-Based)
-
-The expert policy generates reference actions by processing sensor data:
-- **Camera-Based Lane Detection:** Extracts road lines and calculates the lane center by processing images (grayscale conversion, Canny edge detection, Hough transform).
-- **LiDAR-Based Obstacle Detection:** Identifies obstacles, estimates their size, and determines an appropriate avoidance strategy by analyzing a LiDAR history matrix.
-- **Finite State Machine (FSM):** Manages driving states (`LANE_FOLLOWING`, `AVOIDING`, `DRIVING_STRAIGHT`, `RETURNING`) to ensure structured and predictable behavior.
-
-### Behavioral Cloning (BC)
-- **Data Collection:** Experiences (expert observations and actions) are stored in **structured and separate experience buffers** (`state_buffers`) for each FSM state.
-- **Prioritized Sampling:** Experiences are scored based on **safety priority** (proximity to obstacles), **diversity priority** (discrepancy between model and expert actions), and **phase priority**. This focuses training on critical and informative samples.
-- **Training Process:** BC training is conducted using the `Adam` optimizer, `MSELoss` cost function, and a `ReduceLROnPlateau` scheduler to adjust the learning rate and prevent overfitting.
+3. **Learnable Adaptive Mask (LAM)**  
+   - Lightweight perception module that adapts attention using speed & LiDAR cues.  
+   - Shifts focus forward at high velocity and near obstacles when hazards are detected.  
+   - Jointly optimized end-to-end with PPO.
 
 ---
 
-## 🤖 Reinforcement Learning (PPO) & Inverse Reinforcement Learning (IRL)
+## 🧩 System Architecture
+<div align="center">
 
-**Reinforcement Learning (RL)** optimizes the agent's policy through interaction with the environment to maximize cumulative reward. This project utilizes the **Proximal Policy Optimization (PPO)** algorithm.
-
-### PPO Framework
-- **Policy:** Maps observations (image and LiDAR data) to a probability distribution over continuous actions (steering and speed).
-- **Feature Extractor (`CustomCNNWithLiDAR`):** A hybrid architecture that uses a CNN to process images and an MLP to process LiDAR data, producing a shared feature vector (size 512). This extractor is shared between the PPO policy and the IRL Discriminator.
-
-### Integration with IRL
-**Inverse Reinforcement Learning (IRL)** enhances the learning process by inferring a reward function from the expert's behavior.
-- **Discriminator:** A classifier network that learns to distinguish between expert and agent (state-action) pairs.
-- **IRL Reward:** An additional reward is computed as `$r_{irl} = -\log(1 - D(s, a))$`, where `D(s, a)` is the discriminator's predicted probability that the action `a` in state `s` is "expert-like."
-- **Extractor Synchronization:** To improve stability, the weights of the Discriminator's feature extractor are periodically synchronized with the PPO's feature extractor.
-
-### Hybrid Reward Function
-The final reward is a combination of the environmental reward and the IRL reward: `$Reward = w_{env} \cdot R_{env} + w_{irl} \cdot r_{irl}$`. This structure incentivizes the agent to achieve objective goals (safety, lane-following) while also learning the expert's behavioral style.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/4429ce3b-3f08-4e1a-b2eb-15720f78398f" width="80%" alt="RL IRL Combination">
-</p>
+| Module | Description | Core Method |
+|:--------|:-------------|:-------------|
+| **Perception (LAM)** | Context-aware spatial attention | Learnable Adaptive Mask |
+| **Policy Learning** | Hybrid IL → PPO + IRL reward | BC + PPO + GAIL |
+| **Safety Planner** | Energy-guided diffusion generation | DAL Planner |
+</div>
+<div align="center">
+<img width="1705" height="458" alt="main" src="https://github.com/user-attachments/assets/b48b8ba8-0ae4-40ba-abc9-43f193802fbe" />
+<em>Figure 1 — Overview of the IRL-DAL architecture.</em>
+</div>
 
 ---
 
-## 📊 Results & Evaluation
+## 🧮 Learning Curriculum
 
-The system achieved outstanding results in simulation tests. The plots below show the model's performance over time and a comparison between the agent's and expert's actions.
-- **Average Reward:** Achieved a mean reward above 150 (out of a maximum of 200).
-- **Collision Rate:** Less than 1 collision per 1000 timesteps.
-- **Lane Following Error:** Lateral deviation of less than 15 pixels.
+1. **Expert Data Generation (FSM-Aware)**  
+   - Uses a deterministic **Finite State Machine (FSM)** to generate expert trajectories.  
+   - Stores samples by FSM-state to preserve rare safety events.
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ab9d1dcf-2fcf-410e-a125-94b96bbcaea6" width="80%" alt="Evaluation Graph">
-</p>
-<!-- <p align="center">
-  <video width="80%" controls>
-    <source src="https://Seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/result.mp4" type="video/mp4">
-  </video>
-</p> -->
-<p align="center">
-<img width="5943" height="5307" alt="5 64 50000" src="https://github.com/user-attachments/assets/0ca9e986-8939-4389-8076-ad592b68f2f5" />
-</p>
+2. **Phase 1 — Behavioral Cloning (BC)**  
+   - Supervised pre-training on expert data for stable initialization.
 
+3. **Phase 2 — PPO + Adversarial IRL Fine-tuning**  
+   - On-policy refinement with hybrid rewards for smoother and safer driving.
+
+<div align="center">
+<img width="1539" height="418" alt="image" src="https://github.com/user-attachments/assets/6af32aab-c456-4dba-9758-ffa548046b3d" />
+<em>Figure 3 — FSM-aware expert policy for structured data generation.</em>
+</div>
 
 ---
 
-## 🚦 Conclusion & Future Work
+## ⚙️ Energy-Guided Diffusion for Safety
 
-This project demonstrates a powerful and unified architecture combining **Imitation Learning, Reinforcement Learning, Inverse Reinforcement Learning, and Diffusion Models**. Aided by computer vision and LiDAR data, it culminates in a robust and safe autonomous driving system.
+The DAL planner minimizes a composite energy:
+- \(E_{lane}\): lane adherence  
+- \(E_{obs}\): obstacle avoidance  
+- \(E_{jerk}\): control smoothness  
 
-**Suggestions for Future Work:**
-- **GPS/IMU Integration:** Add spatial data for large-scale navigation.
-- **Sim-to-Real Transfer:** Adapt the model for use on real-world robotic platforms.
-- **Transformer-Based Planner:** Replace the U-Net architecture in the Diffusion Planner with a Transformer to better capture temporal dependencies.
-- **Multi-Task Learning:** Simultaneously train for additional tasks, such as traffic sign recognition.
+When unsafe PPO actions arise, DAL replaces them with safe alternatives and logs corrections for continual learning — forming a **self-improving safety layer**.
+
+<div align="center">
+<img width="1712" height="492" alt="image" src="https://github.com/user-attachments/assets/fe46c6b9-68f0-4bd1-ba77-4539ab55933e" />
+<em>Figure 2 — Learnable Adaptive Mask (LAM) perception submodule.</em>
+</div>
+
+---
+
+## 📈 Experimental Highlights
+
+- **Simulator:** Webots (CARLA-style physics)  
+- **Sensors:** RGB, LiDAR, and Kinematics  
+- **Evaluation Metrics:** Collision rate, lateral deviation, control jerk, and success rate.  
+<div align="center">
+   
+| Model | Mean Reward | Collision Rate ↓ | Success ↑ |
+|:-------|:-------------|:----------------|:-----------|
+| PPO Baseline | 85 | 0.63 | 78 % |
+| Structured Replay | 120 (+41 %) | 0.30 | 88 % |
+| + Generative Planner | 155 (+29 %) | 0.15 | 92 % |
+| **Full IRL-DAL** | **180 (+16 %)** | **0.05** | **96 %** |
+
+</div>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" style="vertical-align: top; padding: 10px;">
+        <img src="https://github.com/user-attachments/assets/ab9d1dcf-2fcf-410e-a125-94b96bbcaea6"
+             width="450" alt="Evaluation Graph"><br>
+      </td>
+      <td align="center" style="vertical-align: top; padding: 10px;">
+        <img src="https://github.com/user-attachments/assets/999e3fcc-1cfd-4ef2-9584-d863222a1e23" 
+             width="450" alt="Training Dynamics"><br>
+      </td>
+    </tr>
+  </table>
+</div>
