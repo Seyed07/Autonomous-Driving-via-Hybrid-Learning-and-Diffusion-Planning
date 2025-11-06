@@ -9,7 +9,10 @@
 
 **IRL-DAL (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner)** integrates *Imitation Learning (IL)*, *Inverse Reinforcement Learning (IRL)*, and *Reinforcement Learning (RL)* with a **Diffusion-based Safety Planner (DAL)**.  
 Its objective: achieving **safe, adaptive, and human-like trajectory planning** for autonomous driving systems.
-
+<div align="center">
+<img width="1705" height="458" alt="main" src="https://github.com/user-attachments/assets/b48b8ba8-0ae4-40ba-abc9-43f193802fbe" />
+<em>Figure 1 — Overview of the IRL-DAL architecture.</em>
+</div>
 ---
 
 ## 🚀 Core Contributions
@@ -40,11 +43,6 @@ Its objective: achieving **safe, adaptive, and human-like trajectory planning** 
 | **Policy Learning** | Hybrid IL → PPO + IRL reward | BC + PPO + GAIL |
 | **Safety Planner** | Energy-guided diffusion generation | DAL Planner |
 </div>
-<div align="center">
-<img width="1705" height="458" alt="main" src="https://github.com/user-attachments/assets/b48b8ba8-0ae4-40ba-abc9-43f193802fbe" />
-<em>Figure 1 — Overview of the IRL-DAL architecture.</em>
-</div>
-
 ---
 
 ## 🧮 Learning Curriculum
