@@ -1,7 +1,9 @@
 # IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models
 
 > **Authors:** Seyed Ahmad Hosseini Miangoleh, Farzaneh Abdollahi  
-> **Affiliation:** Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran  
+> **Affiliation:** Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran
+
+> **Paper Website:** https://seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/
 
 ---
 
