@@ -3,111 +3,121 @@
 > **Authors:** Seyed Ahmad Hosseini Miangoleh, Farzaneh Abdollahi  
 > **Affiliation:** Department of Electrical Engineering, Amirkabir University of Technology (Tehran Polytechnic), Tehran, Iran
 
-> **Paper Website:** https://seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/
+> **Paper Website:** [Click Here](https://seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/)
 
 ---
 
 ## 🧠 Overview
 
-**IRL-DAL (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner)** integrates *Imitation Learning (IL)*, *Inverse Reinforcement Learning (IRL)*, and *Reinforcement Learning (RL)* with a **Diffusion-based Safety Planner (DAL)**.  
-Its objective: achieving **safe, adaptive, and human-like trajectory planning** for autonomous driving systems.
+**IRL-DAL (Inverse Reinforcement Learning with a Diffusion-based Adaptive Lookahead planner)** presents a robust framework for autonomous driving that addresses the safety and stability limitations of end-to-end Reinforcement Learning.
+
+Unlike standard RL approaches that struggle with sample inefficiency and sparse safety signals, IRL-DAL integrates:
+1.  **Hybrid Learning:** Combining Behavioral Cloning (BC), PPO, and Adversarial IRL (GAIL).
+2.  **Runtime Safety Shield:** A conditional **Diffusion Model** that intervenes only in critical states to prevent catastrophic failures during training and execution.
+3.  **Adaptive Perception:** A learnable masking mechanism that mimics human-like attention shifts based on vehicle dynamics.
+
 <div align="center">
-<img width="1705" height="458" alt="main" src="https://github.com/user-attachments/assets/b48b8ba8-0ae4-40ba-abc9-43f193802fbe" />
-<em>Figure 1 — Overview of the IRL-DAL architecture.</em>
+<img width="100%" height="492" alt="main" src="https://github.com/user-attachments/assets/6aef18dc-b804-4af6-ab69-7d7d902b8fed" />
+<em>Figure 1 — Overview of the IRL-DAL architecture: The RL agent learns from an FSM expert, while the Diffusion Planner acts as a safety shield, and LAM modulates visual attention.</em>
 </div>
+
 ---
 
 ## 🚀 Core Contributions
 
-1. **Hybrid IL–IRL–RL Learning Architecture**  
-   - Combines **Behavioral Cloning (BC)** pre-training with **PPO fine-tuning**.  
-   - Incorporates **adversarial IRL (GAIL)** for dense intent alignment.  
-   - Uses a **hybrid reward** blending environment and imitation feedback.
-    
-2. **Diffusion-based Adaptive Lookahead (DAL) Planner**  
-   - Conditional diffusion model acting as a *safety consultant*.  
-   - Generates safe short-horizon trajectories using an **energy-guided** objective.  
-   - Penalizes collisions, lane deviation, and control jerk dynamically.
+### 1. Hybrid IL–IRL–RL Architecture
+We propose a two-phase curriculum to solve the exploration-exploitation dilemma:
+*   **Phase 1 (Initialization):** Supervised Behavioral Cloning (BC) using data from a rule-based FSM Expert.
+*   **Phase 2 (Refinement):** PPO fine-tuning guided by a **Hybrid Reward System** (Dense Environmental Reward + Learned IRL Style Reward).
 
-3. **Learnable Adaptive Mask (LAM)**  
-   - Lightweight perception module that adapts attention using speed & LiDAR cues.  
-   - Shifts focus forward at high velocity and near obstacles when hazards are detected.  
-   - Jointly optimized end-to-end with PPO.
+### 2. Diffusion-based Adaptive Lookahead (DAL) as a Safety Shield
+Instead of using diffusion for all planning (which is slow), DAL acts as an **on-demand safety consultant**.
+*   **Trigger:** Activates only when safety metrics (LiDAR distance, lane deviation) breach thresholds.
+*   **Function:** Generates corrective trajectories using **Energy-Guided Sampling** (minimizing collision risk and jerk).
+*   **Role:** Allows the agent to survive critical scenarios, enabling it to learn from the FSM expert instead of terminating the episode early.
+
+### 3. Learnable Adaptive Mask (LAM)
+A lightweight, interpretable attention module jointly optimized with the policy.
+*   **Mechanism:** Dynamically weights input image regions based on **Speed** and **LiDAR Risk**.
+*   **Behavior:** Contrary to standard attention which spreads out, LAM **amplifies the near-field (lower visual field)** at high speeds to ensure lateral stability and precise lane tracking.
 
 ---
 
-## 🧩 System Architecture
-<div align="center">
+## 🧩 System Modules
 
-| Module | Description | Core Method |
+| Module | Role | Method |
 |:--------|:-------------|:-------------|
-| **Perception (LAM)** | Context-aware spatial attention | Learnable Adaptive Mask |
-| **Policy Learning** | Hybrid IL → PPO + IRL reward | BC + PPO + GAIL |
-| **Safety Planner** | Energy-guided diffusion generation | DAL Planner |
-</div>
+| **Perception (LAM)** | Context-aware visual attention | Learnable Gradient Mask (Speed/Risk conditioned) |
+| **Policy (Actor)** | Main driving decisions | PPO + BC Regularization |
+| **Reward (Critic)** | Style & Safety feedback | Adversarial IRL (Discriminator) + Env Reward |
+| **Safety (DAL)** | Runtime intervention & shielding | Energy-Guided Conditional Diffusion |
+
 ---
 
-## 🧮 Learning Curriculum
+## ⚙️ Methodology Highlights
 
-1. **Expert Data Generation (FSM-Aware)**  
-   - Uses a deterministic **Finite State Machine (FSM)** to generate expert trajectories.  
-   - Stores samples by FSM-state to preserve rare safety events.
+### SAEC: Safety-Aware Experience Correction
+Standard RL fails when the agent crashes early. Our **SAEC** loop uses the Diffusion Planner to intervene *before* a crash.
+*   **Execution:** The Diffusion action saves the vehicle.
+*   **Learning:** The interaction is stored in the replay buffer, but the **Training Target** remains the FSM/Expert action. This teaches the PPO agent: *"This is how you should have handled the situation to avoid needing the shield."*
 
-2. **Phase 1 — Behavioral Cloning (BC)**  
-   - Supervised pre-training on expert data for stable initialization.
-
-3. **Phase 2 — PPO + Adversarial IRL Fine-tuning**  
-   - On-policy refinement with hybrid rewards for smoother and safer driving.
+### Energy-Guided Diffusion
+The DAL planner does not just clone behavior; it minimizes a composite energy function at inference time:
+$$E_{total} = w_{lane}E_{lane} + w_{obs}E_{obs} + w_{jerk}E_{jerk}$$
 
 <div align="center">
-<img width="1539" height="418" alt="image" src="https://github.com/user-attachments/assets/6af32aab-c456-4dba-9758-ffa548046b3d" />
-<em>Figure 3 — FSM-aware expert policy for structured data generation.</em>
+<img width="100%" height="597" alt="attention" src="https://github.com/user-attachments/assets/e729303d-5c95-4747-815e-5b56fcfe2181" />
+<em>Figure 2 — (Left) LAM focusing on near-field lane lines during high-speed driving. (Right) Diffusion planner generating safe candidates.</em>
 </div>
 
 ---
 
-## ⚙️ Energy-Guided Diffusion for Safety
+## 📈 Experimental Results
 
-The DAL planner minimizes a composite energy:
-- \(E_{lane}\): lane adherence  
-- \(E_{obs}\): obstacle avoidance  
-- \(E_{jerk}\): control smoothness  
+We evaluated IRL-DAL in **Webots** against strong baselines. The results demonstrate that adding the Diffusion Shield and LAM significantly reduces collision rates and improves trajectory smoothness.
 
-When unsafe PPO actions arise, DAL replaces them with safe alternatives and logs corrections for continual learning — forming a **self-improving safety layer**.
+**Metrics:**
+*   **ADE/FDE:** Average/Final Displacement Error (Traj. Prediction Accuracy).
+*   **Collision Rate:** Per 1000 timesteps.
 
-<div align="center">
-<img width="1712" height="492" alt="image" src="https://github.com/user-attachments/assets/fe46c6b9-68f0-4bd1-ba77-4539ab55933e" />
-<em>Figure 2 — Learnable Adaptive Mask (LAM) perception submodule.</em>
-</div>
-
----
-
-## 📈 Experimental Highlights
-
-- **Simulator:** Webots (CARLA-style physics)  
-- **Sensors:** RGB, LiDAR, and Kinematics  
-- **Evaluation Metrics:** Collision rate, lateral deviation, control jerk, and success rate.  
 <div align="center">
    
-| Model | Mean Reward | Collision Rate ↓ | Success ↑ |
-|:-------|:-------------|:----------------|:-----------|
-| PPO Baseline | 85 | 0.63 | 78 % |
-| Structured Replay | 120 (+41 %) | 0.30 | 88 % |
-| + Generative Planner | 155 (+29 %) | 0.15 | 92 % |
-| **Full IRL-DAL** | **180 (+16 %)** | **0.05** | **96 %** |
+| Model | Mean Reward | Collision Rate ↓ | Success Rate ↑ | ADE (m) ↓ | FDE (m) ↓ |
+|:-------|:-------------:|:----------------:|:-----------:|:-----------:|:-----------:|
+| PPO Baseline | 85.2 | 0.63 | 78.1 % | 5.25 | 11.8 |
+| + FSM Replay | 120.4 | 0.30 | 88.4 % | 4.10 | 9.5 |
+| + Diffusion Shield | 155.1 | 0.15 | 92.0 % | 3.15 | 7.2 |
+| **Full IRL-DAL** | **180.7** | **0.05** | **96.3 %** | **2.45** | **5.1** |
 
 </div>
+
 <div align="center">
   <table>
     <tr>
       <td align="center" style="vertical-align: top; padding: 10px;">
         <img src="https://github.com/user-attachments/assets/ab9d1dcf-2fcf-410e-a125-94b96bbcaea6"
-             width="450" alt="Evaluation Graph"><br>
+             width="100%" alt="Evaluation Graph"><br>
+        <em>Video 3: Trajectory Execution Results</em>
       </td>
       <td align="center" style="vertical-align: top; padding: 10px;">
         <img src="https://github.com/user-attachments/assets/999e3fcc-1cfd-4ef2-9584-d863222a1e23" 
-             width="450" alt="Training Dynamics"><br>
+             width="100%" alt="Training Dynamics"><br>
+        <em>Figure 4: Training Stability & Loss</em>
       </td>
     </tr>
   </table>
 </div>
+
+
+--- 
+
+##  Citation
+
+If you use this code or method in your research, please cite:
+```bibtex
+@article{hosseini2025irldal,
+  title   = {IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving Using Energy-Guided Diffusion Models},
+  author  = {Hosseini Miangoleh, Seyed Ahmad and Abdollahi, Farzaneh},
+  journal = {Submitted to IEEE Transactions on Intelligent Transportation Systems},
+  year    = {2025}
+}
