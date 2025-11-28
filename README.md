@@ -115,9 +115,4 @@ We evaluated IRL-DAL in **Webots** against strong baselines. The results demonst
 
 If you use this code or method in your research, please cite:
 ```bibtex
-@article{hosseini2025irldal,
-  title   = {IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving Using Energy-Guided Diffusion Models},
-  author  = {Hosseini Miangoleh, Seyed Ahmad and Abdollahi, Farzaneh},
-  journal = {Submitted to IEEE Transactions on Intelligent Transportation Systems},
-  year    = {2025}
-}
+
