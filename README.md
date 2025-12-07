@@ -110,9 +110,3 @@ We evaluated IRL-DAL in **Webots** against strong baselines. The results demonst
 
 
 --- 
-
-##  Citation
-
-If you use this code or method in your research, please cite:
-```bibtex
-
