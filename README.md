@@ -109,3 +109,36 @@ We evaluated IRL-DAL in **Webots** against strong baselines. The results demonst
 </div>
 
 --- 
+
+## 📚 Citation
+If you use this work, please cite it as:
+```bibtex
+@misc{miangoleh2026irldalsafeadaptivetrajectory,
+      title={IRL-DAL: Safe and Adaptive Trajectory Planning for Autonomous Driving via Energy-Guided Diffusion Models}, 
+      author={Seyed Ahmad Hosseini Miangoleh and Amin Jalal Aghdasian and Farzaneh Abdollahi},
+      year={2026},
+      eprint={2601.23266},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2601.23266}, 
+}
+```
+## 🏛 Acknowledgments
+This work was developed at the **Department of Electrical Engineering**, Amirkabir University of Technology (Tehran Polytechnic)
+
+---
+
+## 📬 Contact
+
+For technical questions or collaboration opportunities:
+
+**Seyed Ahmad Hosseini Miangoleh**
+📧 [seyedahmad.hosseini@aut.ac.ir](mailto:seyedahmad.hosseini@aut.ac.ir)
+
+**Amin Jalal Aghdasian**
+📧 [amin.aghdasian@aut.ac.ir](mailto:amin.aghdasian@aut.ac.ir)
+
+**Dr. Farzaneh Abdollahi**
+📧 [f_abdollahi@aut.ac.ir](mailto:f_abdollahi@aut.ac.ir)
+
+---
