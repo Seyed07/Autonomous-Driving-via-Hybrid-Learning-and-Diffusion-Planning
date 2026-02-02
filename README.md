@@ -100,13 +100,12 @@ We evaluated IRL-DAL in **Webots** against strong baselines. The results demonst
         <em>Video 3: Trajectory Execution Results</em>
       </td>
       <td align="center" style="vertical-align: top; padding: 10px;">
-        <img src="https://github.com/user-attachments/assets/999e3fcc-1cfd-4ef2-9584-d863222a1e23" 
+        <img src="https://github.com/user-attachments/assets/7667c735-8924-4fde-b9e6-725fd6cb89a2" 
              width="100%" alt="Training Dynamics"><br>
         <em>Figure 4: Training Stability & Loss</em>
       </td>
     </tr>
   </table>
 </div>
-
 
 --- 
