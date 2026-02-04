@@ -5,6 +5,7 @@
 
 > **Paper Website:** [Click Here](https://seyed07.github.io/Autonomous-Driving-via-Hybrid-Learning-and-Diffusion-Planning/)
 
+> **Paper:** [arXiv:2601.23266](https://arxiv.org/abs/2601.23266)
 ---
 
 ## 🧠 Overview
